@@ -1,0 +1,183 @@
+---
+title: How Tools Work
+subtitle: "Future of Data Apps: LLMs Meet Shiny"
+author: Garrick Aden-Buie
+
+format:
+  revealjs:
+    html-math-method: plain
+    slide-level: 2
+    theme:
+      - slides.scss
+
+execute:
+  eval: true
+
+editor:
+  render-on-save: true
+---
+
+# Tools {.center}
+
+a.k.a. _functions_, _tool calling_ or _function calling_
+
+::: incremental
+* Bring real-time or up-to-date information to the model
+
+* Letting the model interact with the world<sup>*</sup>
+:::
+
+::: notes
+Tools are extra capabilities that you give to the LLM, like the ability to search the posit::conf(2025) schedule.
+These capabilities are things that the model can't do on its own.
+The goal is let the model pull in real-time, or up-to-date, or high-quality information as needed, depending on the conversation.
+
+They can also give the model new abilities to take action on behalf of the user.
+:::
+
+# Chatbot Systems
+
+## {.center style="text-align: center" transition="fade"}
+
+![](assets/chat-systems-user-06.excalidraw.svg)
+
+::: footer
+user vs. programmer
+:::
+
+## {.center style="text-align: center" transition="fade"}
+
+![](assets/chat-systems-user-07.excalidraw.svg)
+
+
+## {.center style="text-align: center" transition="fade"}
+
+![](assets/chat-systems-user-08.excalidraw.svg)
+
+
+## {.center style="text-align: center" transition="fade"}
+
+![](assets/chat-systems-user-16.excalidraw.svg)
+
+
+## {.center style="text-align: center" transition="fade"}
+
+![](assets/chat-systems-user-17.excalidraw.svg)
+
+
+## {.center style="text-align: center" transition="fade"}
+
+![](assets/chat-systems-user-18.excalidraw.svg)
+
+
+## {.center style="text-align: center" transition="fade"}
+
+![](assets/chat-systems-user-19.excalidraw.svg)
+
+
+## {.center style="text-align: center" transition="fade"}
+
+![](assets/chat-systems-user-20.excalidraw.svg)
+
+
+## {.center style="text-align: center" transition="fade"}
+
+![](assets/chat-systems-user-21.excalidraw.svg)
+
+
+# How do tool calls work?
+
+::: r-fit-text
+Is today a good day to go to the pool?
+:::
+
+::: notes
+So how do we connect the LLM to the code that this data scientist has written (or could write) to give the model new abilities?
+:::
+
+## Human in the loop {.center}
+
+Run `04_weather-manual-app.R`.
+
+## Wait... I can write R code! {.center}
+
+Go back to `05_weather-tool.R`.
+
+## {.center style="text-align: center" transition="fade"}
+
+![](assets/tools-how-it-works-01.excalidraw.svg)
+
+::: notes
+Zooming out again, the conversation starts with a user sending a message to the chatbot.
+
+In this case, the user asks the model whether they can go to the pool today.
+(I live in Woodstock, GA.)
+
+How much does the model know about the weather in Woodstock, GA?
+
+**What's the weather like today in Woodstock, GA?**
+
+> I'm unable to provide real-time weather updates. For the latest weather forecast in Woodstock, GA, please check a trusted weather service such as
+the National Weather Service, Weather.com, or a weather app on your device.
+
+**Go ahead and guess**
+
+> Sure! Since it's July in Woodstock, GA, you can generally expect hot and humid weather. Temperatures might range from the mid-80s to mid-90s
+Fahrenheit (around 29-35°C). There could also be some afternoon thunderstorms or showers, which are common during summer months in Georgia. Keep a
+fan or air conditioning handy if you're indoors, and stay hydrated!
+:::
+
+## {.center style="text-align: center" transition="fade"}
+
+![](assets/tools-how-it-works-02.excalidraw.svg)
+
+::: notes
+Now imagine we've told the LLM that it has access to a tool called `get_weather()`.
+Knowing that it 1) needs to know the weather in Woodstock and 2) it doesn't know the weather in Woodstock, GA; the model decides to use the weather tool.
+
+It sends back a message that includes a tool call, basically instructions to call the `get_weather()` function with the argument `30188`.
+Notice that the model _does know_ that Woodstock, GA is in the 30188 ZIP code.
+:::
+
+## {.center style="text-align: center" transition="fade"}
+
+![](assets/tools-how-it-works-03.excalidraw.svg)
+
+::: notes
+The programmer can then take that message from the LLM with the instructions to call the tool and they go off and run the code that that satisfies the tool request, in this case querying the weather API for the weather in 30188 because that has been a stable fact for a long time.
+:::
+
+## {.center style="text-align: center" transition="fade"}
+
+![](assets/tools-how-it-works-04.excalidraw.svg)
+
+::: notes
+The weather API sends back some data:
+
+* The forecast is mostly sunny
+* High of 98ºF
+* Low of 78ºF
+:::
+
+## {.center style="text-align: center" transition="fade"}
+
+![](assets/tools-how-it-works-05.excalidraw.svg)
+
+::: notes
+The programmer sends that data back to the LLM.
+Note that it's often in a pretty raw format, like JSON.
+Not the kind of thing you'd want to read directly unless you're the kind of person who likes reading computer data formats.
+:::
+
+## {.center style="text-align: center" transition="fade"}
+
+![](assets/tools-how-it-works-06.excalidraw.svg)
+
+::: notes
+The LLM doesn't mind JSON though, so it reads the data and generates a response that _incorporates_ the data from the tool call.
+:::
+
+## {.center style="text-align: center" transition="fade"}
+
+![](assets/tools-how-it-works-07.excalidraw.svg)
+
