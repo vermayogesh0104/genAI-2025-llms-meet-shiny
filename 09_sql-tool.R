@@ -16,6 +16,7 @@ dbGetQuery(con, "SELECT count(*) as n_row FROM mr_cases")
 run_query <- tool(
   function(query) {
     # Run the query on `con` and return as a tibble
+    as_tibble(dbGetQuery(con, query))
   },
   name = "run_query",
   description = "Run a SQL query on the measles cases database.",
@@ -27,8 +28,6 @@ run_query <- tool(
     icon = bsicons::bs_icon("table")
   )
 )
-
-run_query("SELECT * FROM mr_cases")
 
 # ---- [[ Demo the tool ]] ----
 chat <- chat("openai/gpt-4.1-nano", echo = "output")
@@ -45,8 +44,6 @@ The data is stored in a duckdb SQL database with a table called `mr_cases`.
   )
 )
 chat$register_tool(run_query)
-
-live_browser(chat)
 
 chat$chat("Which country had the highest measles burden in 2019?")
 chat$chat("What about in 2021?")
