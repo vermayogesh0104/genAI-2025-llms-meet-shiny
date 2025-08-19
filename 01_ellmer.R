@@ -80,7 +80,7 @@ chat <- chat_ollama(model = "qwen3:4b")
 
 # ---- ✦ ellmer in easy mode ✦ ----
 
-chat <- chat_openai(model = "gpt-4.1-nano")
+chat <- chat_openai(model = "gpt-5-nano")
 
 live_console(chat)
 live_browser(chat)
@@ -95,7 +95,7 @@ chat <- chat_openai(
     "You are a trickster who turns what the user says",
     "into an silly riddle."
   ),
-  model = "gpt-4.1-nano",
+  model = "gpt-5-nano",
   params = params(
     temperature = 1
   )
@@ -117,7 +117,7 @@ chat <- chat_openai(
     "You write nicely formatted code, in a functional style,",
     "and you prefer R-native conventions, like vectorization."
   ),
-  model = "gpt-4.1-nano",
+  model = "gpt-5-nano",
   params = params(
     temperature = 0.2
   )
