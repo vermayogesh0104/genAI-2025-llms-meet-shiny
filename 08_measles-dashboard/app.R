@@ -14,14 +14,14 @@ querychat_config <-
 I'm here to help you explore the measles cases data.
 Here are some example prompts you can try:
 
-* <span class="suggestion">Show Nigerian measles cases from 2023</span>
 * <span class="suggestion">What are the top 5 countries with the most measles cases?</span>
-* <span class="suggestion">Show countries with high yearly measles totals (above the 75th percentile)</span>
+* <span class="suggestion">Show Nigerian measles cases</span>
+* <span class="suggestion">Show countries with high yearly measles totals (above the 90th percentile in any given year)</span>
 )---",
   )
 
 ui <- page_sidebar(
-  title = "Measles Dashboard",
+  title = "querychat: Measles Dashboard",
 
   sidebar = querychat_sidebar("chat"),
 
@@ -45,7 +45,9 @@ ui <- page_sidebar(
         plotlyOutput("top_countries_plot")
       )
     )
-  )
+  ),
+
+  useBusyIndicators(spinners = FALSE)
 )
 
 server <- function(input, output, session) {
