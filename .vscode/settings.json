@@ -1,0 +1,5 @@
+{
+  "git.blame.editorDecoration.enabled": false,
+  "gitlens.blame.highlight.enabled": false,
+  "gitlens.currentLine.enabled": false
+}

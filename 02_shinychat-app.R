@@ -3,3 +3,19 @@
 # 3. {shinychat} -- pak::pak("posit-dev/shinychat/pkg-r")
 # 4. {ellmer} -- use gpt-5-nano
 # 5. Add chat_mod_ui() and chat_mod_server()
+
+library(shiny)
+library(bslib)
+library(ellmer)
+library(shinychat)
+
+ui <- page_fillable(
+  chat_mod_ui("chat")
+)
+
+server <- function(input, output, session) {
+  client <- chat("openai/gpt-4.1-nano")
+  chat_mod_server("chat", client)
+}
+
+shinyApp(ui, server)
