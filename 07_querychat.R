@@ -1,4 +1,6 @@
 # ---- I have data that I want to explore ----
+# Shoutout to Jen Richmond & TidyTuesday!
+# https://jenrichmond.github.io/tidytuesday/2025-06-22_tt_measles/
 library(readr)
 
 mr_cases <- read_csv("data/cases_month.csv")
