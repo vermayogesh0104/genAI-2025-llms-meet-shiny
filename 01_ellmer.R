@@ -80,7 +80,7 @@ chat <- chat_ollama(model = "qwen3:4b")
 
 # ---- ✦ ellmer in easy mode ✦ ----
 
-chat <- chat_openai(model = "gpt-5-nano")
+chat <- chat("openai")
 
 live_console(chat)
 live_browser(chat)
